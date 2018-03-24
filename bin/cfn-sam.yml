@@ -43,7 +43,7 @@ Resources:
       Handler: app.main
       Runtime: python3.6
       MemorySize: 256
-      CodeUri: bin
+      CodeUri: build/lambda.zip
       Events:
         HttpPost:
           Type: Api
