@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: API Endpoint calling GitHub API Lambda Function
+Parameters:
+  stage:
+    Type: String
+    Default: dev
+Resources:
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref stage
+      DefinitionBody:
+          swagger: 2.0
+          info:
+            title:
+              Ref: AWS::StackName
+          x-amazon-apigateway-request-validators:
+            query-only:
+              validateRequestBody: false
+              validateRequestParameters: true
+            full:
+              validateRequestBody: true
+              validateRequestParameters: true
+          x-amazon-apigateway-request-validator: full
+          paths:
+            "/github":
+              post:
+                x-amazon-apigateway-integration:
+                  httpMethod: POST
+                  type: aws_proxy
+                  uri:
+                    Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${VpnStub.Arn}/invocations
+                  passthroughBehavior: "when_no_match"
+                x-amazon-apigateway-auth:
+                  type: "none"
+                responses:
+                  "200":
+                    description: Return unique ID plus input params
+  GitHub:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: app.main
+      Runtime: python3.6
+      MemorySize: 256
+      CodeUri: ./
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/github'
+            Method: post
+            RestApiId:
+              Ref: Api
+      Tags:
+        vendor: versent
+Outputs:
+  GitHubApi:
+    Description: GitHub
+    Value: !Ref GitHub
+  ApiId:
+    Description: Api
+    Value: !Ref Api

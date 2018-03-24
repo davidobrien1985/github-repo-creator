@@ -1,0 +1,28 @@
+version: 0.2
+
+# env:
+#   variables:
+
+phases:
+  install:
+    commands:
+      - pip install --upgrade awscli
+      - pip install requests -t bin
+  # pre_build:
+  #   commands:
+  #     - echo Running python unit tests
+  #     - cd SAM && python -m unittest tests
+  #     - cd ..
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo $BUILD_OUTPUT_BUCKET
+      - aws cloudformation package --template-file aws-foundation/SAM/cfn-sam.yml --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file NewSamTemplate.yaml
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  type: zip
+  files:
+    - NewSamTemplate.yaml
+  discard-paths: yes

@@ -1,20 +1,38 @@
 import datetime as date
 import json
 import os
-
 import requests as r
+import logging
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-def main(req):
+def main(event, context):
     """main function being called
     
     Arguments:
-        req {Azure Function input} -- input object from the Azure Function trigger
+        
     """
+    logger.info('got event %s' % (event))
+    print(event)
+    body = convert_body_to_json(event['body'])
     githubBaseUrl = "https://api.github.com"
     githubOwner = "davidobrien1985"
     createRepository(githubOwner, githubBaseUrl, os.environ['githubPAT'], "test123")
     configureGitHubBranch(githubOwner, githubBaseUrl, os.environ['githubPAT'], "test123", "master")
+
+def respond(err, res=None):
+    return {
+        'statusCode': '400' if err else '200',
+        'body': res,
+        'headers': {
+            'Content-Type': 'application/json',
+        },
+    }
+
+def convert_body_to_json(body):
+    new_body = json.loads(body)
+    return new_body
 
 def createRepository(githubOwner, githubBaseUrl, githubPat, githubRepoName):
     """create a GitHub repository
