@@ -177,7 +177,7 @@ Resources:
                         - Name: SourceZip
                       OutputArtifacts:
                         - Name: BuiltZip
-                - Name: Deploy
+                - Name: DeployStack
                   Actions:
                     - Name: CreateChangeSet
                       ActionTypeId:

@@ -52,8 +52,6 @@ Resources:
             Method: post
             RestApiId:
               Ref: Api
-      Tags:
-        vendor: versent
 Outputs:
   GitHubApi:
     Description: GitHub
