@@ -8,7 +8,6 @@ phases:
     commands:
       - pip install --upgrade awscli
       - pip install requests -t bin
-      - pip install zip
   # pre_build:
   #   commands:
   #     - echo Running python unit tests
@@ -18,9 +17,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo $BUILD_OUTPUT_BUCKET
-      # - cp -R bin/* .
+      - cp -R bin/* .
       - ls
-      - zip -jr build/lambda.zip bin/*
       - aws cloudformation package --template-file bin/cfn-sam.yml --s3-bucket $BUILD_OUTPUT_BUCKET --output-template-file NewSamTemplate.yaml
   post_build:
     commands:
