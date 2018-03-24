@@ -30,7 +30,7 @@ Resources:
                   httpMethod: POST
                   type: aws_proxy
                   uri:
-                    Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${VpnStub.Arn}/invocations
+                    Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GitHub.Arn}/invocations
                   passthroughBehavior: "when_no_match"
                 x-amazon-apigateway-auth:
                   type: "none"
