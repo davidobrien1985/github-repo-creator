@@ -16,10 +16,11 @@ def main(event, context):
     logger.info('got event %s' % (event))
     print(event)
     body = convert_body_to_json(event['body'])
+    repoName = body['repoName']
     githubBaseUrl = "https://api.github.com"
     githubOwner = "davidobrien1985"
-    createRepository(githubOwner, githubBaseUrl, os.environ['githubPAT'], "test123")
-    configureGitHubBranch(githubOwner, githubBaseUrl, os.environ['githubPAT'], "test123", "master")
+    createRepository(githubOwner, githubBaseUrl, os.environ['githubPAT'], repoName)
+    configureGitHubBranch(githubOwner, githubBaseUrl, os.environ['githubPAT'], repoName, "master")
 
 def respond(err, res=None):
     return {
