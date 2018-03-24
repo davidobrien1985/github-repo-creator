@@ -1,0 +1,38 @@
+---
+  - name: create build pipeline
+    hosts: localhost
+    connection: local
+    gather_facts: false
+  
+    vars:
+    
+      env: build-np
+      region: ap-southeast-2
+      ServiceName: github-repo-creator
+      GithubRepoName: github-repo-creator
+      GithubRepoBranch: master
+      GithubOwner: davidobrien1985
+      GithubPAT: "{{ GithubPAT }}"
+  
+      tags:
+        Environment: "{{ env }}"
+        Application: "{{ ServiceName }}"
+        Role: cloudops
+        Owner: me@david-obrien.net
+        Service: lambda
+        Name: "{{ ServiceName }}"
+  
+    tasks:
+  
+    - cloudformation:
+        stack_name: github-repo-creator
+        state: present
+        region: "{{ region }}"
+        template: "foundation/codepipeline.yaml"
+        template_parameters:
+          ServiceName: "{{ ServiceName }}"
+          GithubRepoName: "{{ GithubRepoName }}"
+          GithubRepoBranch: "{{ GithubRepoBranch }}"
+          GithubOwner: "{{ GithubOwner }}"
+          GithubPAT: "{{ GithubPAT }}"
+        tags: "{{ tags }}"
