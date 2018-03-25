@@ -14,4 +14,4 @@ $AWS_DEFAULT_REGION= $aws_region
 $location = (Get-Location).Path
 
 docker pull davidobrien/centos_ansible_powershell
-docker run -e GITHUBPAT=$githubpat -e AWS_SECURITY_TOKEN=$AWS_SECURITY_TOKEN -e AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION -v ${location}:/run -t davidobrien/centos_ansible_powershell ansible-playbook -i localhost, run/setup.yaml -e GitHubPAT=${GITHUBPAT} -vvvv
+docker run -e GITHUBPAT=$githubpat -e AWS_SECURITY_TOKEN=$AWS_SECURITY_TOKEN -e AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION -v ${location}:/run -t davidobrien/centos_ansible_powershell ansible-playbook -i localhost, run/setup.yaml -e GithubPAT=${GITHUBPAT} -e GithubRepoBranch=aws -vvvv
