@@ -12,12 +12,12 @@
       GithubRepoName: github-repo-creator
       GithubRepoBranch: master
       GithubOwner: davidobrien1985
-      GithubPAT: "{{ GithubPAT }}"
+      GithubPAT: "none"
   
       tags:
         Environment: "{{ env }}"
         Application: "{{ ServiceName }}"
-        Role: cloudops
+        Role: myself
         Owner: me@david-obrien.net
         Service: lambda
         Name: "{{ ServiceName }}"
@@ -25,10 +25,10 @@
     tasks:
   
     - cloudformation:
-        stack_name: github-repo-creator
+        stack_name: build-github-repo-creator
         state: present
         region: "{{ region }}"
-        template: "foundation/codepipeline.yaml"
+        template: "aws-foundation/foundation/serverless-pipeline.yml"
         template_parameters:
           ServiceName: "{{ ServiceName }}"
           GithubRepoName: "{{ GithubRepoName }}"
