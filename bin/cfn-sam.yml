@@ -43,6 +43,7 @@ Resources:
       Handler: app.main
       Runtime: python3.6
       MemorySize: 256
+      Timeout: 15
       CodeUri: ./
       Events:
         HttpPost:
