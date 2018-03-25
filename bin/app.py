@@ -3,6 +3,7 @@ import json
 import os
 import requests as r
 import logging
+import time
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -28,6 +29,7 @@ def main(event, context):
 
     try:
         logger.info('Create develop branch on {0}'.format(repoName))
+        time.sleep(5)
         createGitHubBranch(githubOwner, repoName, githubBaseUrl, os.environ['githubPAT'], "develop")
     except (RuntimeError, TypeError, NameError) as err:
         return respond(err,"{0}".format(err))
