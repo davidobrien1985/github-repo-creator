@@ -188,8 +188,12 @@ Resources:
                       Configuration:
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                        StackName: !Sub '${ServiceName}-Stack'
-                        ChangeSetName: !Sub '${ServiceName}-ChangeSet'
+                        StackName: 
+                          Fn::Sub: '${ServiceName}-Stack'
+                        ChangeSetName: 
+                          Fn::Sub: '${ServiceName}-ChangeSet'
+                        ParameterOverrides: 
+                          Fn::Sub: '{ "githubOwner" : { GithubOwner } }'
                         TemplatePath: BuiltZip::NewSamTemplate.yaml
                         Capabilities: CAPABILITY_IAM
                       InputArtifacts:

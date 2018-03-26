@@ -5,6 +5,8 @@ Parameters:
   stage:
     Type: String
     Default: dev
+  githubOwner:
+    Type: String
 Resources:
   Api:
     Type: AWS::Serverless::Api
@@ -44,6 +46,10 @@ Resources:
       Runtime: python3.6
       MemorySize: 256
       Timeout: 15
+      Environment:
+        Variables:
+          githubOwner:
+            Ref: githubOwner
       CodeUri: ./
       Events:
         HttpPost:
