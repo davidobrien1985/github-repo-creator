@@ -16,9 +16,10 @@ def main(event, context):
     """
     logger.info('got event %s' % (event))
     body = convert_body_to_json(event['body'])
-    repoName = body['repoName']
+    print(body)
+    repoName = body['text'].split(' ')[1][:-1]
     githubBaseUrl = "https://api.github.com"
-    githubOwner = "davidobrien1985"
+    githubOwner = os.environ['githubOwner']
     branches = "master","develop"
 
     try:
