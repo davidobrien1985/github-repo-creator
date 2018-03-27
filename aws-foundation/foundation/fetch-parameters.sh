@@ -2,6 +2,6 @@
 
 cat <<EOF > parameters.json
 {
-    "githubOwner": "${githubOwner}"
+    "githubOwner": "${GITHUBOWNER}"
 }
 EOF
