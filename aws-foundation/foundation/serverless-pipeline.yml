@@ -192,8 +192,10 @@ Resources:
                           Fn::Sub: '${ServiceName}-Stack'
                         ChangeSetName: 
                           Fn::Sub: '${ServiceName}-ChangeSet'
-                        ParameterOverrides: 
-                          Fn::Sub: '{ "githubOwner" : "${GithubOwner}" }'
+                        ParameterOverrides: !Sub |
+                        {
+                          "githubOwner" : "!Ref GithubOwner"
+                        }
                         TemplatePath: BuiltZip::NewSamTemplate.yaml
                         Capabilities: CAPABILITY_IAM
                       InputArtifacts:
