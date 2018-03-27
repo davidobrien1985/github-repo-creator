@@ -67,6 +67,8 @@ Resources:
                 EnvironmentVariables:
                   - Name: BUILD_OUTPUT_BUCKET
                     Value: !Ref BuildArtifactsBucket
+                  - Name: GITHUBOWNER
+                    Value: !Ref GithubOwner
             ServiceRole: !GetAtt CodeBuildServiceRole.Arn
             Source: 
                 Type: CODEPIPELINE
@@ -194,7 +196,7 @@ Resources:
                           Fn::Sub: '${ServiceName}-ChangeSet'
                         ParameterOverrides: !Sub |
                         {
-                          "githubOwner" : "!Ref GithubOwner"
+                          "githubOwner" :  { "Fn::GetParam" : ["BuiltZip", "parameters.json", "githubOwner"]}
                         }
                         TemplatePath: BuiltZip::NewSamTemplate.yaml
                         Capabilities: CAPABILITY_IAM
