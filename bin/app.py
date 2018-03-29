@@ -4,6 +4,8 @@ import os
 import requests as r
 import logging
 import time
+import html
+
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -17,14 +19,17 @@ def main(event, context):
     logger.info('got event %s' % (event))
     body = convert_body_to_json(event['body'])
     print(body)
-    repoName = body['text'].split(' ')[1][:-1]
+    text = html.unescape(body['text'])
+    repoName = text.split(' ')[1][:-1]
+    print(repoName)
     githubBaseUrl = "https://api.github.com"
     githubOwner = os.environ['githubOwner']
+    cloudops_team_github_id = os.environ['cloudopsTeamGithubId']
     branches = "master","develop"
 
     try:
         logger.info('Create repository {0}'.format(repoName))
-        createRepository(githubOwner, githubBaseUrl, os.environ['githubPAT'], repoName)
+        createRepository(githubOwner, githubBaseUrl, os.environ['githubPAT'], repoName, cloudops_team_github_id)
     except (RuntimeError, TypeError, NameError) as err:
         return respond(err,"{0}".format(err))
 
@@ -59,7 +64,7 @@ def convert_body_to_json(body):
     new_body = json.loads(body)
     return new_body
 
-def createRepository(githubOwner, githubBaseUrl, githubPat, githubRepoName):
+def createRepository(githubOwner, githubBaseUrl, githubPat, githubRepoName, cloudops_team_github_id):
     """create a GitHub repository
 
     Arguments:
@@ -73,7 +78,9 @@ def createRepository(githubOwner, githubBaseUrl, githubPat, githubRepoName):
         'name': githubRepoName,
         'auto_init': 'true',
         'allow_merge_commit': 'false',
-        'allow_rebase_merge': 'false'
+        'allow_rebase_merge': 'false',
+        'private': 'true',
+        'team_id': cloudops_team_github_id
         }
 
     headers = {
@@ -82,7 +89,7 @@ def createRepository(githubOwner, githubBaseUrl, githubPat, githubRepoName):
     }
 
     response = r.post(
-        githubBaseUrl + "/user/repos",
+        githubBaseUrl + "/orgs/{0}/repos".format(githubOwner),
         data=json.dumps(payload),
         json=None,
         headers=headers)
