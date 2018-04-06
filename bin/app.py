@@ -151,7 +151,7 @@ def configureGitHubBranch(githubOwner, githubBaseUrl, githubPat, githubRepoName,
 
     payload = {
         "required_status_checks": None,
-        "enforce_admins": True,
+        "enforce_admins": False,
         "required_pull_request_reviews": {
             "dismiss_stale_reviews": True,
             "require_code_owner_reviews": True
